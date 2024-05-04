@@ -12,7 +12,7 @@ import (
 	"syscall"
 )
 
-// Название канала ля NATS-STREAMING
+// Название канала для NATS-STREAMING
 var channelName = "WBChannel"
 
 // Идентификаторы кластера и клиента для NATS-STREAMING
