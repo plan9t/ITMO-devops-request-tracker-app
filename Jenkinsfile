@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo "Downloading dependencies and building"
                 sh "go mod download"
+                sh "go get github.com/nats-io/stan.go"
                 sh "go build -o request-tracker-app"
                 echo "Successful building request-tracker-app"
             }
