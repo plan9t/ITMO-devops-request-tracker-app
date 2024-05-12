@@ -1,4 +1,4 @@
-module RequestTrackerL0
+module request-tracker-app
 
 go 1.22rc2
 
