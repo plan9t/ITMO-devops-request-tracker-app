@@ -45,7 +45,7 @@ func init() {
 func main() {
 
 	fmt.Println("PROGRAMM STARTED")
-
+	fmt.Println("Hi ITMO")
 	// запуск сервера для интерфейса
 	http.HandleFunc("/", IndexHandler)
 	go http.ListenAndServe(":4444", nil)
