@@ -64,7 +64,7 @@ type Item struct {
 
 func GetOrdersFromPostgreSQL() ([]Order, error) {
 	// Подключение к PostgreSQL
-	dbURL := "postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+	dbURL := "postgresql://postgres:postgres@localhost:5432/devops?sslmode=disable"
 
 	// Открытие соединения с базой данных
 	db, err := sql.Open("postgres", dbURL)
@@ -307,7 +307,7 @@ ORDER BY
 // GetOrderByOrderUID возвращает данные о заказе по order_uid
 func GetOrderByOrderUID(orderUID string) ([]Order, error) {
 	// Подключение к PostgreSQL
-	dbURL := "postgresql://postgres:postgres@localhost:5432/postres?sslmode=disable"
+	dbURL := "postgresql://postgres:postgres@localhost:5432/devops?sslmode=disable"
 
 	// Открытие соединения с базой данных
 	db, err := sql.Open("postgres", dbURL)
@@ -558,7 +558,7 @@ func orderToJSON(orderData []Order) []byte {
 func SaveToPostgreSQL(orderData Order) error {
 
 	// Подключение к PostgreSQL
-	dbURL := "postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+	dbURL := "postgresql://postgres:postgres@localhost:5432/devops?sslmode=disable"
 
 	// Открытие соединения с базой данных
 	db, err := sql.Open("postgres", dbURL)
