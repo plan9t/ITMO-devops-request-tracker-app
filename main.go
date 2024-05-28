@@ -45,7 +45,6 @@ func init() {
 func main() {
 
 	fmt.Println("PROGRAMM STARTED")
-	fmt.Println("Hi ITMO")
 	// запуск сервера для интерфейса
 	http.HandleFunc("/", IndexHandler)
 	go http.ListenAndServe(":4444", nil)
@@ -66,7 +65,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Текущий кэш:")
+	fmt.Println("Текущий кэш :")
 	fmt.Println(MyCache.Orders)
 	//
 	//fmt.Println("ИСКОМЫЙ ЗАКАЗ, КОТОРОГО НЕТ!! В КЭШЕ")
