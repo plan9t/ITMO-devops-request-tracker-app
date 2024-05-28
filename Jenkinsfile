@@ -24,10 +24,10 @@ pipeline {
                 sh "ssh -tt temon01@51.250.86.139 'whoami; pwd'"
                 echo "Successful connection to devops-server"
 
-                echo "Check who am in jenkins server"
+                echo "Check who am in main server"
                 sh "whoami"
 
-                echo "Check pwd in jenkins"
+                echo "Check pwd in main server."
                 sh "pwd"
 
                 sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app temon01@51.250.86.139:/home/temon01/nats-builded"
