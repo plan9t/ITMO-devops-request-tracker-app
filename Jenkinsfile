@@ -31,7 +31,7 @@ pipeline {
                 sh "pwd"
 
                 sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app root@193.176.158.224:/home/temon01/nats-builded"
-                echo "Build successful copied!"
+                echo "Build successful copied!!"
 
 
                 sh "ssh -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
