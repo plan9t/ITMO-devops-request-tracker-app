@@ -27,7 +27,7 @@ pipeline {
                 echo "Check who am in main server"
                 sh "whoami"
 
-                echo "Check pwd in main server.1"
+                echo "Check pwd in main server.11"
                 sh "pwd"
 
                 sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app -i ~/.ssh/id_rsa root@193.176.158.224:/home/temon01/nats-builded"
