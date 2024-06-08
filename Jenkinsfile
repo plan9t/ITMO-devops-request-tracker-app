@@ -33,7 +33,7 @@ pipeline {
                 echo "Check pwd in main server.11"
                 sh "pwd"
 
-                sh "scp /var/lib/jenkins/workspace/request-tracker-DevOps/request-tracker-app jenkins@193.176.158.224:/home/jenkins/go-builded"
+                sh "scp /var/lib/jenkins/workspace/RequestTracker-DevOps jenkins@193.176.158.224:/home/jenkins/go-builded"
                 echo "Build successful copied!!"
 
 
