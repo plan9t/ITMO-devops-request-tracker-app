@@ -17,11 +17,11 @@ pipeline {
                 echo "Check who am i before ssh connection ."
                 sh "whoami"
 
-                sh "ssh -tt root@193.176.158.224 pkill -f request-tracker-app || true"
+                sh "ssh -i ~/.ssh/id_rsa -tt root@193.176.158.224 pkill -f request-tracker-app || true"
                 echo "Old version app stopped!"
 
                 echo "Connecting to devops-server by SSH and execute whoami and pwd commands"
-                sh "ssh -tt root@193.176.158.224 whoami; pwd"
+                sh "ssh -i ~/.ssh/id_rsa -tt root@193.176.158.224 whoami; pwd"
                 echo "Successful connection to devops-server"
 
                 echo "Check who am in main server"
@@ -34,7 +34,7 @@ pipeline {
                 echo "Build successful copied!!"
 
 
-                sh "ssh -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
+                sh "ssh -i ~/.ssh/id_rsa -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
                 echo "End script"
             }
         }
