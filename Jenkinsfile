@@ -17,7 +17,7 @@ pipeline {
                 echo "TEST SSH Connecting"
                 sh "ssh jenkins@193.176.158.224"
 
-                echo "Check who am i before ssh connection ."
+                echo "Check who am i before ssh connection .111"
                 sh "whoami"
 
                 sh "ssh -tt jenkins@193.176.158.224 pkill -f request-tracker-app || true"
