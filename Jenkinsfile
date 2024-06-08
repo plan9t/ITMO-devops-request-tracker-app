@@ -37,7 +37,7 @@ pipeline {
                 echo "Build successful copied!!"
 
 
-                sh "ssh -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/jenkins/go-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
+                sh "ssh -o BatchMode=yes jenkins@193.176.158.224 'whoami; pwd; cd /home/jenkins/go-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
                 echo "End script!!!"
             }
         }
