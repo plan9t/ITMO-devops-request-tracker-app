@@ -15,7 +15,7 @@ pipeline {
         stage('Deployment') {
             steps {
                 echo "TEST SSH Connecting"
-                sh "ssh jenkins@193.176.158.224"
+                sh "ssh  jenkins@193.176.158.224"
 
                 echo "Check who am i before ssh connection .111"
                 sh "whoami"
@@ -33,11 +33,11 @@ pipeline {
                 echo "Check pwd in main server.11"
                 sh "pwd"
 
-                sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app root@193.176.158.224:/home/temon01/nats-builded"
+                sh "scp /var/lib/jenkins/workspace/request-tracker-DevOps/request-tracker-app jenkins@193.176.158.224:/home/jenkins/go-builded"
                 echo "Build successful copied!!"
 
 
-                sh "ssh -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
+                sh "ssh -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/jenkins/go-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
                 echo "End script!!!"
             }
         }
