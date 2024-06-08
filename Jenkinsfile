@@ -17,7 +17,7 @@ pipeline {
                 echo "Check who am i before ssh connection ."
                 sh "whoami"
 
-                sh "ssh -i ~/.ssh/id_rsa -tt root@193.176.158.224 pkill -f request-tracker-app || true"
+                sh "ssh -i ~/.ssh/id_rsa -tt jenkins@193.176.158.224 pkill -f request-tracker-app || true"
                 echo "Old version app stopped!"
 
                 echo "Connecting to devops-server by SSH and execute whoami and pwd commands"
