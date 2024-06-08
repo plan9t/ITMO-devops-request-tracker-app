@@ -14,14 +14,14 @@ pipeline {
 
         stage('Deployment') {
             steps {
-                echo "Check who am i before ssh connection."
+                echo "Check who am i before ssh connection ."
                 sh "whoami"
 
-                sh "ssh -tt temon01@51.250.86.139 pkill -f request-tracker-app || true"
+                sh "ssh -tt root@193.176.158.224 pkill -f request-tracker-app || true"
                 echo "Old version app stopped."
 
                 echo "Connecting to devops-server by SSH and execute whoami and pwd commands"
-                sh "ssh -tt temon01@51.250.86.139 'whoami; pwd'"
+                sh "ssh -tt root@193.176.158.224 'whoami; pwd'"
                 echo "Successful connection to devops-server"
 
                 echo "Check who am in main server"
@@ -30,12 +30,12 @@ pipeline {
                 echo "Check pwd in main server."
                 sh "pwd"
 
-                sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app temon01@51.250.86.139:/home/temon01/nats-builded"
+                sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app root@193.176.158.224:/home/temon01/nats-builded"
                 echo "Build successful copied"
 
 
-                sh "ssh -o BatchMode=yes temon01@51.250.86.139 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
-                echo "EOS"
+                sh "ssh -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
+                echo "End script"
             }
         }
     }
