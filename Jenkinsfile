@@ -30,11 +30,11 @@ pipeline {
                 echo "Check pwd in main server.11"
                 sh "pwd"
 
-                sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app -i ~/.ssh/id_rsa root@193.176.158.224:/home/temon01/nats-builded"
+                sh "scp /var/lib/jenkins/workspace/request-tracker-app/request-tracker-app root@193.176.158.224:/home/temon01/nats-builded"
                 echo "Build successful copied!!"
 
 
-                sh "ssh -i ~/.ssh/id_rsa -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
+                sh "ssh -o BatchMode=yes root@193.176.158.224 'whoami; pwd; cd /home/temon01/nats-builded; nohup ./request-tracker-app > request-tracker-app.log 2>&1 & exit;'"
                 echo "End script!!!"
             }
         }
