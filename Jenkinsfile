@@ -18,7 +18,7 @@ pipeline {
                 sh "whoami"
 
                 sh "ssh -tt root@193.176.158.224 pkill -f request-tracker-app || true"
-                echo "Old version app stopped."
+                echo "Old version app stopped!"
 
                 echo "Connecting to devops-server by SSH and execute whoami and pwd commands"
                 sh "ssh -tt root@193.176.158.224 'whoami; pwd'"
