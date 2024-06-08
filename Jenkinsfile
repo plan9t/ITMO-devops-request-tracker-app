@@ -20,7 +20,7 @@ pipeline {
                 sh "ssh -i ~/.ssh/id_rsa -tt jenkins@193.176.158.224 pkill -f request-tracker-app || true"
                 echo "Old version app stopped!"
 
-                echo "Connecting to devops-server by SSH and execute whoami and pwd commands"
+                echo "Connecting to devops-server by SSH and execute whoami and pwd commands111"
                 sh "ssh -i ~/.ssh/id_rsa -tt jenkins@193.176.158.224 whoami; pwd"
                 echo "Successful connection to devops-server"
 
