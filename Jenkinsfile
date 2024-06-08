@@ -21,7 +21,7 @@ pipeline {
                 echo "Old version app stopped!"
 
                 echo "Connecting to devops-server by SSH and execute whoami and pwd commands"
-                sh "ssh -tt root@193.176.158.224 'whoami; pwd'"
+                sh "ssh root@193.176.158.224 'whoami; pwd'"
                 echo "Successful connection to devops-server"
 
                 echo "Check who am in main server"
