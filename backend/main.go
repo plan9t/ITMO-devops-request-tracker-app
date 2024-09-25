@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/nats-io/stan.go"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -28,20 +27,20 @@ var sc stan.Conn
 
 var MyCache = NewCache()
 
-func init() {
-	// Инициализация подключения к NATS Streaming
-	var err error
-	sc, err = stan.Connect(
-		clusterID,
-		clientID,
-		stan.NatsURL(natsURL),
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Успешная инициализация")
-}
+//func init() {
+//	// Инициализация подключения к NATS Streaming
+//	var err error
+//	sc, err = stan.Connect(
+//		clusterID,
+//		clientID,
+//		stan.NatsURL(natsURL),
+//	)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//
+//	fmt.Println("Успешная инициализация")
+//}
 
 func main() {
 
@@ -78,17 +77,17 @@ func main() {
 	MyCache.AddOrders(GetOrdersFromPostgreSQL())
 
 	// Проверка подключения к серверу NATS-streaming
-	if sc.NatsConn().IsConnected() {
-		fmt.Println("ПОДКЛЮЧЕНО К СЕРВЕРУ NATS-STREAMING")
-	} else {
-		fmt.Println("Не подключено к серверу NATSSTREAMING")
-	}
+	//if sc.NatsConn().IsConnected() {
+	//	fmt.Println("ПОДКЛЮЧЕНО К СЕРВЕРУ NATS-STREAMING")
+	//} else {
+	//	fmt.Println("Не подключено к серверу NATSSTREAMING")
+	//}
 
-	// Подписка на канал и прослушка канала (здесь мы парсим JSON и записываем данные в PostgreSQL
-	_, err := createDurableSubscription(sc, channelName, clientID)
-	if err != nil {
-		log.Fatal(err)
-	}
+	//// Подписка на канал и прослушка канала (здесь мы парсим JSON и записываем данные в PostgreSQL
+	//_, err := createDurableSubscription(sc, channelName, clientID)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	fmt.Println("Текущий кэш :")
 	fmt.Println(MyCache.Orders)
@@ -119,61 +118,61 @@ func main() {
 
 }
 
-func createDurableSubscription(sc stan.Conn, channelName, clientID string) (stan.Subscription, error) {
-	subscription, err := sc.Subscribe(channelName, func(msg *stan.Msg) {
-		fmt.Printf("Получено сообщение из канала '%s': %s\n", channelName, string(msg.Data))
-
-		// Вызрв функции для парсинга JSON и сохранения в базу данных
-		orderData, err := parseJSON(msg.Data)
-		if err != nil {
-			fmt.Println("Ошибка при парсинге JSON:", err)
-			return
-		}
-		fmt.Println("JSON спашрен")
-
-		err = SaveToPostgreSQL(orderData)
-		if err != nil {
-			fmt.Println("Ошибка при сохранении в PostgreSQL:", err)
-			return
-		}
-		fmt.Println("Данные из темы ", channelName, " сохранены в БД")
-		// Запись в кэш
-		MyCache.AddOrder(orderData)
-		fmt.Println("Данные из темы ", channelName, " записаны в КЭШ")
-	}, stan.DurableName(clientID))
-
-	if err != nil && err == stan.ErrBadSubscription {
-		// подписка с таким прочным именем уже существует, отписываемся от нее
-		if err := subscription.Unsubscribe(); err != nil {
-			return nil, err
-		}
-
-		// создаем новую подписку с тем же прочным именем
-		subscription, err = sc.Subscribe(channelName, func(msg *stan.Msg) {
-			fmt.Printf("Получено сообщение из канала '%s': %s\n", channelName, string(msg.Data))
-
-			// Вызов функции для парсинга JSON и сохранения в базу данных
-			orderData, err := parseJSON(msg.Data)
-			if err != nil {
-				fmt.Println("Ошибка при парсинге JSON:", err)
-				return
-			}
-			fmt.Println("JSON спашрен")
-
-			err = SaveToPostgreSQL(orderData)
-			if err != nil {
-				fmt.Println("Ошибка при сохранении в PostgreSQL:", err)
-				return
-			}
-			fmt.Println("Данные из темы ", channelName, " сохранены в БД")
-			// Запись в кэш
-			MyCache.AddOrder(orderData)
-			fmt.Println("Данные из темы ", channelName, " записаны в КЭШ")
-		}, stan.DurableName(clientID))
-	}
-
-	return subscription, err
-}
+//func createDurableSubscription(sc stan.Conn, channelName, clientID string) (stan.Subscription, error) {
+//	subscription, err := sc.Subscribe(channelName, func(msg *stan.Msg) {
+//		fmt.Printf("Получено сообщение из канала '%s': %s\n", channelName, string(msg.Data))
+//
+//		// Вызрв функции для парсинга JSON и сохранения в базу данных
+//		orderData, err := parseJSON(msg.Data)
+//		if err != nil {
+//			fmt.Println("Ошибка при парсинге JSON:", err)
+//			return
+//		}
+//		fmt.Println("JSON спашрен")
+//
+//		err = SaveToPostgreSQL(orderData)
+//		if err != nil {
+//			fmt.Println("Ошибка при сохранении в PostgreSQL:", err)
+//			return
+//		}
+//		fmt.Println("Данные из темы ", channelName, " сохранены в БД")
+//		// Запись в кэш
+//		MyCache.AddOrder(orderData)
+//		fmt.Println("Данные из темы ", channelName, " записаны в КЭШ")
+//	}, stan.DurableName(clientID))
+//
+//	if err != nil && err == stan.ErrBadSubscription {
+//		// подписка с таким прочным именем уже существует, отписываемся от нее
+//		if err := subscription.Unsubscribe(); err != nil {
+//			return nil, err
+//		}
+//
+//		// создаем новую подписку с тем же прочным именем
+//		subscription, err = sc.Subscribe(channelName, func(msg *stan.Msg) {
+//			fmt.Printf("Получено сообщение из канала '%s': %s\n", channelName, string(msg.Data))
+//
+//			// Вызов функции для парсинга JSON и сохранения в базу данных
+//			orderData, err := parseJSON(msg.Data)
+//			if err != nil {
+//				fmt.Println("Ошибка при парсинге JSON:", err)
+//				return
+//			}
+//			fmt.Println("JSON спашрен")
+//
+//			err = SaveToPostgreSQL(orderData)
+//			if err != nil {
+//				fmt.Println("Ошибка при сохранении в PostgreSQL:", err)
+//				return
+//			}
+//			fmt.Println("Данные из темы ", channelName, " сохранены в БД")
+//			// Запись в кэш
+//			MyCache.AddOrder(orderData)
+//			fmt.Println("Данные из темы ", channelName, " записаны в КЭШ")
+//		}, stan.DurableName(clientID))
+//	}
+//
+//	return subscription, err
+//}
 
 func (c *Cache) GetOrderFromCacheOrDB(orderUID string) []Order {
 	c.mu.Lock()
@@ -266,15 +265,15 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func renderTemplate(w http.ResponseWriter, tmplName string, data interface{}) {
-	tmpl, err := template.New("").ParseGlob("templates/*.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	err = tmpl.ExecuteTemplate(w, "layout", data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
+//func renderTemplate(w http.ResponseWriter, tmplName string, data interface{}) {
+//	tmpl, err := template.New("").ParseGlob("templates/*.html")
+//	if err != nil {
+//		http.Error(w, err.Error(), http.StatusInternalServerError)
+//		return
+//	}
+//
+//	err = tmpl.ExecuteTemplate(w, "layout", data)
+//	if err != nil {
+//		http.Error(w, err.Error(), http.StatusInternalServerError)
+//	}
+//}
