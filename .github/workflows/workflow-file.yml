@@ -49,5 +49,6 @@ jobs:
           name: request-tracker-app
       
       - name: Run tests
-        run: go test -v
-        working-directory: /home/runner/work/ITMO-devops-request-tracker-app/ITMO-devops-request-tracker-app
+        run: |
+          go test -v
+        # working-directory: /home/runner/work/ITMO-devops-request-tracker-app/ITMO-devops-request-tracker-app
