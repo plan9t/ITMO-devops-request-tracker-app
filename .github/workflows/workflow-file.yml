@@ -18,30 +18,33 @@ jobs:
         go-version: '1.16'
 
     - name: Install dependencies
-      run: go mod download
+      run: |
+        cd backend  # Переход в каталог backend
+        go mod download  # Загрузка зависимостей
 
     - name: Build application
-      run: go build -o request-tracker-app
+      run: |
+        cd backend 
+        go build -o request-tracker-app 
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
         name: request-tracker-app
-        path: request-tracker-app
+        path: backend/request-tracker-app  
 
 
   test:
     runs-on: ubuntu-latest
-    needs: build 
+    needs: build  
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3  
         with:
           name: request-tracker-app
       
       - name: Run tests
-        run: go test -v
+        run: |
+          cd backend
+          go test -v
