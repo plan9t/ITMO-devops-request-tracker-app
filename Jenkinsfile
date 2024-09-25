@@ -12,6 +12,13 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                echo "Test stage"
+                sh "go test -v"
+            }
+        }
+
         stage('Deployment') {
             steps {
                 echo "TEST SSH Connecting"
