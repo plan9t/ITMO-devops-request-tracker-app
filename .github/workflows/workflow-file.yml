@@ -48,7 +48,10 @@ jobs:
         with:
           name: request-tracker-app
       
+      - name: List files after download
+        run: ls -la
+      
       - name: Run tests
         run: |
           go test -v
-        # working-directory: /home/runner/work/ITMO-devops-request-tracker-app/ITMO-devops-request-tracker-app
+          working-directory: backend
