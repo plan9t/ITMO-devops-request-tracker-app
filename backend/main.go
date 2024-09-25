@@ -7,9 +7,6 @@ import (
 	"github.com/nats-io/stan.go"
 	"log"
 	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 // Название канала для NATS-STREAMING
@@ -98,23 +95,23 @@ func main() {
 	//fmt.Println("Обновленный кэш:")
 	//fmt.Println(MyCache.Orders)
 
-	// Создание канала для ожидания завершения работы программы
-	done := make(chan os.Signal, 1)
-	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	// Ожидание сигнала завершения работы
-	select {
-	case <-done:
-		// Закрытие подключения к NATS Streaming
-
-		sc.Close()
-
-		// вывод кэша
-		fmt.Println("Кэш перед выходом из сервиса")
-		fmt.Println(MyCache.Orders)
-		fmt.Println("Программа завершена.")
-
-	}
+	//// Создание канала для ожидания завершения работы программы
+	//done := make(chan os.Signal, 1)
+	//signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+	//
+	//// Ожидание сигнала завершения работы
+	//select {
+	//case <-done:
+	//	// Закрытие подключения к NATS Streaming
+	//
+	//	sc.Close()
+	//
+	//	// вывод кэша
+	//	fmt.Println("Кэш перед выходом из сервиса")
+	//	fmt.Println(MyCache.Orders)
+	//	fmt.Println("Программа завершена.")
+	//
+	//}
 
 }
 
