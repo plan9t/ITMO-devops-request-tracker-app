@@ -5,6 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Downloading dependencies and building"
+                echo "Changing directory to backend"
+                dir('backend')
                 sh "go mod download"
                 sh "go get github.com/nats-io/stan.go"
                 sh "go build -o request-tracker-app"
@@ -15,6 +17,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo "Test stage"
+                dir('backend')
                 sh "go test -v"
             }
         }
