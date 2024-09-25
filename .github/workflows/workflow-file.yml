@@ -45,6 +45,4 @@ jobs:
           name: request-tracker-app
       
       - name: Run tests
-        run: |
-          cd backend
-          go test -v
+        run: go test -v
