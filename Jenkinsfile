@@ -48,7 +48,7 @@ pipeline {
 
 
                 sh "ssh -o BatchMode=yes jenkins@193.176.158.224 'whoami; pwd; cd /home/jenkins/request-tracker-app; nohup ./go-builded > request-tracker-app.log 2>&1 & exit;'"
-                echo "End script!!!!!"
+                echo "End script!!!!! "
             }
         }
     }
