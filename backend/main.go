@@ -57,8 +57,8 @@ func main() {
 	r.Use(mux.CORSMethodMiddleware(r))
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.Header().Set("Access-Control-Allow-Origin", "*")                   // Разрешить все источники
-			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS") // Разрешить методы
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 			if r.Method == http.MethodOptions {
 				return
 			}
