@@ -50,4 +50,4 @@ jobs:
       
       - name: Run tests
         run: go test -v
-        working-directory: backend
+        working-directory: /home/runner/work/ITMO-devops-request-tracker-app/ITMO-devops-request-tracker-app
