@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,43 +15,19 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v5  
       with:
-        go-version: '1.22' 
-
-    - name: List files in root
-      run: ls -la
-
-    - name: List files in backend
-      run: ls -la backend
+        go-version: '1.22'
 
     - name: Install dependencies
       run: go mod download
-      working-directory: backend
+      working-directory: backend 
 
     - name: Build application
       run: go build -o request-tracker-app
-      working-directory: backend
+      working-directory: backend  
 
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: request-tracker-app
-        path: backend/request-tracker-app
-    
+    - name: Set executable permission
+      run: chmod +x backend/request-tracker-app  
 
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v3  
-        with:
-          name: request-tracker-app
-      
-      - name: List files after download
-        run: ls -la
-      
-      - name: Run tests
-        run: |
-          ./request-tracker-app test
+    - name: Run tests on the built application
+      run: |
+        ./request-tracker-app test  # Запуск вашего приложения с параметром 'test'
