@@ -3,6 +3,7 @@ module request-tracker-app
 go 1.22rc2
 
 require (
+	github.com/gorilla/mux v1.8.1
 	github.com/lib/pq v1.10.9
 	github.com/nats-io/stan.go v0.10.4
 )

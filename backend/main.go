@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/nats-io/stan.go"
 	"html/template"
 	"log"
@@ -16,7 +17,7 @@ import (
 var channelName = "WBChannel"
 
 // Идентификаторы кластера и клиента для NATS-STREAMING
-var clusterID = "WB-cluster"
+var clusterID = "test-cluster"
 var clientID = "plan9t-client"
 
 // URL NATS Streaming сервера
@@ -47,7 +48,31 @@ func main() {
 	fmt.Println("PROGRAMM STARTED")
 	// запуск сервера для интерфейса
 	http.HandleFunc("/", IndexHandler)
-	go http.ListenAndServe(":4444", nil)
+	// go http.ListenAndServe(":4444", nil)
+
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("frontend/static"))))
+	r := mux.NewRouter()
+
+	// Разрешение CORS
+	r.Use(mux.CORSMethodMiddleware(r))
+	r.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Access-Control-Allow-Origin", "*")                   // Разрешить все источники
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS") // Разрешить методы
+			if r.Method == http.MethodOptions {
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	})
+
+	r.HandleFunc("/api/orders", GetOrdersHandler).Methods("GET")
+	r.HandleFunc("/api/orders/{order_uid}", GetOrderByUIDHandler).Methods("GET")
+
+	log.Println("Сервер запущен на порту 4444")
+	if err := http.ListenAndServe(":4444", r); err != nil {
+		log.Fatal(err)
+	}
 
 	// Восстановление кэша
 	MyCache.AddOrders(GetOrdersFromPostgreSQL())
@@ -178,11 +203,45 @@ type AjaxResponse struct {
 	ResultData string `json:"resultData"`
 }
 
+//func IndexHandler(w http.ResponseWriter, r *http.Request) {
+//	if r.Method == http.MethodGet {
+//		renderTemplate(w, "index", nil)
+//	} else if r.Method == http.MethodPost {
+//		// Обработка POST-запроса
+//		var requestBody struct {
+//			InputData string `json:"inputData"`
+//		}
+//
+//		err := json.NewDecoder(r.Body).Decode(&requestBody)
+//		if err != nil {
+//			http.Error(w, err.Error(), http.StatusBadRequest)
+//			return
+//		}
+//
+//		inputData := requestBody.InputData
+//
+//		//действия с данными
+//
+//		resultData := string(orderToJSON(MyCache.GetOrderFromCacheOrDB(inputData)))
+//
+//		//resultData := "tessssst"
+//
+//		// Отправка данных обратно в формате JSON
+//		response := AjaxResponse{
+//			InputData:  inputData,
+//			ResultData: resultData,
+//		}
+//
+//		w.Header().Set("Content-Type", "application/json")
+//		json.NewEncoder(w).Encode(response)
+//	}
+//}
+
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		renderTemplate(w, "index", nil)
+		http.ServeFile(w, r, "frontend/index.html")
 	} else if r.Method == http.MethodPost {
-		// Обработка POST-запроса
+		// Обработка POST-запроса как раньше
 		var requestBody struct {
 			InputData string `json:"inputData"`
 		}
@@ -195,13 +254,8 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
 		inputData := requestBody.InputData
 
-		//действия с данными
-
 		resultData := string(orderToJSON(MyCache.GetOrderFromCacheOrDB(inputData)))
 
-		//resultData := "tessssst"
-
-		// Отправка данных обратно в формате JSON
 		response := AjaxResponse{
 			InputData:  inputData,
 			ResultData: resultData,

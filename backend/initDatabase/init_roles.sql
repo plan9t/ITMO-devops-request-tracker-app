@@ -1,0 +1,1 @@
+CREATE ROLE plan9t WITH LOGIN PASSWORD 'plan9t';
