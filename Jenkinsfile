@@ -24,7 +24,7 @@ pipeline {
 
         stage('Deployment') {
             steps {
-                echo "TEST SSH Connecting "
+                echo "TEST SSH Connecting  "
                 sh "ssh  jenkins@193.176.158.224"
 
                 echo "Check who am i before ssh connection .111"
