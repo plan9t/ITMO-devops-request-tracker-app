@@ -36,6 +36,7 @@ jobs:
       with:
         name: request-tracker-app
         path: backend/request-tracker-app
+    
 
 
   test:
@@ -53,5 +54,4 @@ jobs:
       
       - name: Run tests
         run: |
-          go test -v
-          working-directory: backend
+          ./request-tracker-app test
