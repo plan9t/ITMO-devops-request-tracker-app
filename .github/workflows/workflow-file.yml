@@ -53,7 +53,12 @@ jobs:
         run: ls -la
       - name: Set executable permission
         run: chmod +x request-tracker-app
-      
-      - name: Run tests
+
+      - name: Run server in background
         run: |
-          ./request-tracker-app test
+          ./request-tracker-app &
+          sleep 5  # Даем серверу время на запуск
+
+      - name: Run tests
+        run: go test -v
+        working-directory: backend
