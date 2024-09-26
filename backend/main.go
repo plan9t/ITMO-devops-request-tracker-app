@@ -42,7 +42,7 @@ var MyCache = NewCache()
 func main() {
 
 	fmt.Println("PROGRAMM STARTED")
-	// запуск сервера для интерфейса
+	// запуск сервера для интерфейса 123123
 	http.HandleFunc("/", IndexHandler)
 	// go http.ListenAndServe(":4444", nil)
 
