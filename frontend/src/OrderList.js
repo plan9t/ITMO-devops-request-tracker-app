@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 const OrderList = () => {
     const [orders, setOrders] = useState([]);
@@ -9,8 +8,12 @@ const OrderList = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:4444/api/orders');
-                setOrders(response.data);
+                const response = await fetch('http://localhost:4444/api/orders');
+                if (!response.ok) {
+                    throw new Error('Сетевая ошибка: ' + response.statusText);
+                }
+                const data = await response.json();
+                setOrders(data);
             } catch (err) {
                 setError(err);
             } finally {
