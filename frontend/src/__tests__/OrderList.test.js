@@ -35,16 +35,15 @@ describe('OrderList component', () => {
 
         render(<OrderList />);
 
-        // Ожидание, пока список заказов будет отрендерен
         await waitFor(() => expect(screen.getByText(/список заказов/i)).toBeInTheDocument());
 
-        // Проверка, что заказы отображаются на экране
+        // проветка отображения
         expect(screen.getByText('TRACK123 - Entry 1')).toBeInTheDocument();
         expect(screen.getByText('TRACK456 - Entry 2')).toBeInTheDocument();
     });
 
     test('renders error message when fetch fails', async () => {
-        // Настройка мока для fetch, чтобы он вызывал ошибку
+        // мок для fetch, чтобы он вызывал ошибку123123
         global.fetch.mockRejectedValueOnce(new Error('Ошибка загрузки'));
 
         render(<OrderList />);
