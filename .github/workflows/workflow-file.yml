@@ -91,11 +91,11 @@ jobs:
 
       - name: Build Docker image for frontend
         run: |
-          docker build . --file frontend/Dockerfile --tag cr.yandex/crp8ui9gahh6vsr4j039/app-frontend:${{ github.sha }}
+          docker build frontend --file frontend/Dockerfile --tag cr.yandex/crp8ui9gahh6vsr4j039/app-frontend:${{ github.sha }}
 
       - name: Build Docker image for backend
         run: |
-          docker build . --file backend/Dockerfile --tag cr.yandex/crp8ui9gahh6vsr4j039/app-backend:${{ github.sha }}
+          docker build backend --file backend/Dockerfile --tag cr.yandex/crp8ui9gahh6vsr4j039/app-backend:${{ github.sha }}
 
       - name: Push Docker images to Container Registry
         run: |
