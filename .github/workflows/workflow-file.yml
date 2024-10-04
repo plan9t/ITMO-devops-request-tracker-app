@@ -104,6 +104,7 @@ jobs:
 
       - name: Set up Kubeconfig
         run: |
+          mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
 
       - name: Deploy to Kubernetes for frontend
