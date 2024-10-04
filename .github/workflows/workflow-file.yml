@@ -109,10 +109,10 @@ jobs:
 
       - name: Deploy to Kubernetes for frontend
         run: |
-          kubectl apply -f k8s/frontend-service.yaml --namespace=default 
+          kubectl apply -f k8s/frontend-service.yaml --namespace=default --validate=false
           kubectl set image deployment/frontend-deployment frontend-container=cr.yandex/crp8ui9gahh6vsr4j039/app-frontend:${{ github.sha }} --namespace=default # Обновите образ контейнера.
 
       - name: Deploy to Kubernetes for backend
         run: |
-          kubectl apply -f k8s/backend-service.yaml --namespace=default
+          kubectl apply -f k8s/backend-service.yaml --namespace=default --validate=false
           kubectl set image deployment/backend-deployment backend-container=cr.yandex/crp8ui9gahh6vsr4j039/app-backend:${{ github.sha }} --namespace=default # Обновите образ контейнера.
