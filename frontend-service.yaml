@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: frontend-autoscaling-label
+spec:
+  selector:
+    matchLabels:
+      project: frontend
+  template:
+    metadata:
+      labels:
+        project: frontend
+    spec:
+      containers:
+        - name: frontend-container
+          image: cr.yandex/crp8ui9gahh6vsr4j039/app-frontend:2.0
+          ports:
+            - containerPort: 80
+          resources:  # Добавляем ресурсные ограничения
+            requests:
+              cpu: "100m"   # Минимальная требуемая мощность CPU
+              memory: "128Mi" # Минимальная требуемая память
+            limits:
+              cpu: "500m"   # Максимально допустимая мощность CPU
+              memory: "512Mi" # Максимально допустимая память
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 15
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service-autoscaler
+  labels:
+    env  : prod
+    name: frontend-service
+spec:
+  selector:
+    project: frontend
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 80
+      targetPort: 80
+  type: LoadBalancer

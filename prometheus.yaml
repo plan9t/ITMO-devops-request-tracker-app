@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  labels:
+    app: prometheus-autoscaling-label
+spec:
+  selector:
+    matchLabels:
+      project: prometheus
+  template:
+    metadata:
+      labels:
+        project: prometheus
+    spec:
+      containers:
+        - name: prometheus-container
+          image: prom/prometheus:v2.40.0 # Замените на последнюю версию, если необходимо
+          ports:
+            - containerPort: 9090
+          resources:  # Добавляем ресурсные ограничения
+            requests:
+              cpu: "100m"   # Минимальная требуемая мощность CPU
+              memory: "128Mi" # Минимальная требуемая память
+            limits:
+              cpu: "500m"   # Максимально допустимая мощность CPU
+              memory: "512Mi" # Максимально допустимая память
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: prometheus-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: prometheus-deployment
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 15
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service-autoscaler
+  labels:
+    env  : prod
+    name: prometheus-service
+spec:
+  selector:
+    project: prometheus
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 9090
+      targetPort: 9090
+  type: LoadBalancer   # Используйте LoadBalancer для получения внешнего IP

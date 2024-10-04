@@ -46,6 +46,8 @@ func main() {
 	http.HandleFunc("/", IndexHandler)
 	// go http.ListenAndServe(":4444", nil)
 
+	go startBot() // Запускаем бота в отдельной горутине
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("frontend/static"))))
 	r := mux.NewRouter()
 
@@ -66,7 +68,7 @@ func main() {
 	r.HandleFunc("/api/orders/{order_uid}", GetOrderByUIDHandler).Methods("GET")
 
 	log.Println("Сервер запущен на порту 4444")
-	if err := http.ListenAndServe(":4444", r); err != nil {
+	if err := http.ListenAndServe("0.0.0.0:4444", r); err != nil {
 		log.Fatal(err)
 	}
 

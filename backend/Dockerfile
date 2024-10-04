@@ -1,21 +1,26 @@
 FROM golang:1.22 AS builder
 
-WORKDIR /backend
+WORKDIR /app
 
 COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
 
-RUN go test ./...
+RUN go test .
 
-RUN go build -o request-tracker .
+RUN CGO_ENABLED=0 GOOS=linux go build -o myapp .
 
 FROM alpine:latest
 
 RUN apk --no-cache add ca-certificates
 
-# Копируем собранное приложение из образа сборки
-COPY --from=builder /backend/request-tracker /usr/local/bin/request-tracker
+WORKDIR /
 
-CMD ["request-tracker"]
+# Копируем скомпилированное приложение из стадии сборки
+COPY --from=builder /app/myapp .
+
+EXPOSE 4444
+
+# Указываем команду для запуска приложения
+CMD ["./myapp"]

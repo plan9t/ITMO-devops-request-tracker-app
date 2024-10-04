@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-pod
+  labels:
+    env: prod
+    app: main
+    tier: backend
+spec:
+  containers:
+    - name: backend-container
+      image: cr.yandex/crp8ui9gahh6vsr4j039/app-backend:1.8

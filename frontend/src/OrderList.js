@@ -8,7 +8,7 @@ const OrderList = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch('http://localhost:4444/api/orders');
+                const response = await fetch('http://84.201.146.234:4444/api/orders');
                 if (!response.ok) {
                     throw new Error('Сетевая ошибка: ' + response.statusText);
                 }

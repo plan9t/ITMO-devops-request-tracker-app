@@ -1,0 +1,18 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: app-proxy
+spec:
+  virtualhost:
+    fqdn: 84.201.180.79
+  routes:
+    - conditions:
+        - prefix: /api/
+      services:
+        - name: backend-service
+          port: 4444
+    - conditions:
+        - prefix: /
+      services:
+        - name: frontend-service
+          port: 80

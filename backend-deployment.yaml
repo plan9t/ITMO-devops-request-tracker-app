@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend-deployment-label
+spec:
+  selector:
+    matchLabels:
+      project: backend
+  template:
+    metadata:
+      labels:
+        project: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: cr.yandex/crp8ui9gahh6vsr4j039/app-backend:1.8

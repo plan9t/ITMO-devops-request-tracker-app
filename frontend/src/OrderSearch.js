@@ -8,7 +8,7 @@ const OrderSearch = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://localhost:4444/api/orders/${orderId}`);
+            const response = await axios.get(`http://84.201.146.234:4444/api/orders/${orderId}`);
             setOrder(response.data);
             setError(null); // Сброс ошибки при успешном запросе
         } catch (err) {
