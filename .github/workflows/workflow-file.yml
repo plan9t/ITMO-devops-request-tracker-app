@@ -104,7 +104,7 @@ jobs:
 
       - name: Set up Kubeconfig
         run: |
-          echo "${{ secrets.KUBERNETES_SECRET }}" > /tmp/kubeconfig.yaml
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
 
       - name: Deploy to Kubernetes for frontend
         run: |
