@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
         - name: prometheus
-          image: prom/prometheus:v2.40.0 # Замените на последнюю версию, если необходимо
+          image: prom/prometheus:v2.40.0
           ports:
             - containerPort: 9090
           volumeMounts:
@@ -61,7 +61,7 @@ metadata:
   name: prometheus-service
   namespace: monitoring
 spec:
-  type: LoadBalancer   # Используйте LoadBalancer для получения внешнего IP
+  type: LoadBalancer
   ports:
     - port: 9090
       targetPort: 9090
