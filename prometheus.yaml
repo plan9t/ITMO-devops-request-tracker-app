@@ -21,10 +21,10 @@ spec:
     spec:
       containers:
         - name: prometheus-container
-          image: prom/prometheus:v2.40.0 # Замените на последнюю версию, если необходимо
+          image: prom/prometheus:v2.40.0
           ports:
             - containerPort: 9090
-          resources:  # Добавляем ресурсные ограничения
+          resources:  #ресурсные ограничения
             requests:
               cpu: "100m"   # Минимальная требуемая мощность CPU
               memory: "128Mi" # Минимальная требуемая память
