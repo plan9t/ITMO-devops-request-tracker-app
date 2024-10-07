@@ -18,7 +18,7 @@ spec:
           image: cr.yandex/crp8ui9gahh6vsr4j039/app-frontend:2.0
           ports:
             - containerPort: 80
-          resources:  # Добавляем ресурсные ограничения
+          resources:  #ресурсные ограничения
             requests:
               cpu: "100m"   # Минимальная требуемая мощность CPU
               memory: "128Mi" # Минимальная требуемая память
