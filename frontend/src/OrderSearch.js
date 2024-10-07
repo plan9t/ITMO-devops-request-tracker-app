@@ -12,7 +12,7 @@ const OrderSearch = () => {
             setOrder(response.data);
             setError(null); // Сброс ошибки при успешном запросе
         } catch (err) {
-            setError('Заказ не найден'); // Установите сообщение об ошибке
+            setError('Заказ не найден');
             setOrder(null); // Сброс результата при ошибке
         }
     };
