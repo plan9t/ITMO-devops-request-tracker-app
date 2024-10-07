@@ -9,7 +9,7 @@ terraform {
 
 provider "virtualbox" {}
 
-# Установка VirtualBox и Vagrant
+
 resource "null_resource" "install_dependencies" {
   provisioner "local-exec" {
     command = <<EOT
@@ -23,7 +23,7 @@ resource "null_resource" "install_dependencies" {
   }
 }
 
-# Создание хост-только адаптера
+
 resource "null_resource" "create_hostonly_network" {
   provisioner "local-exec" {
     command = <<EOT
@@ -34,7 +34,7 @@ resource "null_resource" "create_hostonly_network" {
   depends_on = [null_resource.install_dependencies]
 }
 
-# Создание Vagrantfile для управления виртуальной машиной
+
 resource "null_resource" "create_vagrantfile" {
   provisioner "local-exec" {
     command = <<EOT
@@ -58,7 +58,7 @@ resource "null_resource" "create_vagrantfile" {
   depends_on = [null_resource.create_hostonly_network]
 }
 
-# Задержка для ожидания установки Vagrant
+
 resource "null_resource" "wait_for_vagrant" {
   provisioner "local-exec" {
     command = "sleep 10" # Увеличьте время ожидания, если нужно
@@ -67,10 +67,10 @@ resource "null_resource" "wait_for_vagrant" {
   depends_on = [null_resource.create_vagrantfile]
 }
 
-# Запуск Vagrant для создания виртуальной машины
+
 resource "null_resource" "vagrant_up" {
   provisioner "local-exec" {
-    command = "bash -c 'vagrant up'" # Используем bash для явного вызова
+    command = "bash -c 'vagrant up'" 
   }
 
   depends_on = [null_resource.wait_for_vagrant]
@@ -113,9 +113,9 @@ resource "null_resource" "install_kvm" {
 
     connection {
       type        = "ssh"
-      user        = "ubuntu"  # Замените на ваше имя пользователя
-      private_key = file("~/.ssh/id_rsa")  # Убедитесь, что путь правильный
-      host        = "127.0.0.1"  # Используйте локальный хост
+      user        = "ubuntu" 
+      private_key = file("~/.ssh/id_rsa")  
+      host        = "127.0.0.1"  
     }
   }
 }
@@ -155,22 +155,4 @@ resource "libvirt_domain" "my_domain" {
 
   depends_on = [null_resource.install_kvm]
 }
-
-
-
-
-
-
-
-
-
-Давай сначала.
-
-Что мне нужно. У меня есть ТОЛЬКО установленный terraform на моем сервере.
-Необходимо, чтобы этот Terraform САМОСТОЯТЕЛЬНО:
-1. Скачал, установил и развернул виртуальную машину на моём сервере. В том числе и vagrant, который нужен для работы VirtualBox
-2. Внутри развёрнутой виртуальной машины скачал и установил докер.
-
-
-НАДО ТЕСТИТЬ МБ РАБОАТТЕ
 
