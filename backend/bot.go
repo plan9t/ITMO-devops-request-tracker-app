@@ -14,7 +14,7 @@ var bot *tgbotapi.BotAPI
 // Функция для запуска бота
 func startBot() {
 	var err error
-	bot, err = tgbotapi.NewBotAPI("8084015321:AAErWTJ9gqu2wmUHGt43OXvKDvPoq1YUTSA") // Замените на ваш токен
+	bot, err = tgbotapi.NewBotAPI("8084015321:AAErWTJ9gqu2wmUHGt43OXvKDvPoq1YUTSA")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -59,18 +59,18 @@ func getOrderByUID(orderID string) string {
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusOK {
-		var order Order // Используем вашу структуру Order
+		var order Order
 		if err := json.NewDecoder(resp.Body).Decode(&order); err != nil {
 			return "Ошибка при декодировании ответа."
 		}
 
-		// Форматируем ответ в виде JSON
+		
 		orderJSON, err := json.MarshalIndent(order, "", "  ")
 		if err != nil {
 			return "Ошибка при формировании ответа."
 		}
 
-		return string(orderJSON) // Возвращаем JSON как строку
+		return string(orderJSON) 
 	}
 
 	return "Заказ не найден."
